@@ -1,6 +1,6 @@
 require_relative "../lib/interactive_program"
 
-puts "Enter your code. Press Enter to run your code. Enter q to exit."
+puts "Enter your code. Press blank line to run your code. Enter q to exit."
 
 prog = InteractiveProgram.new
 code = ""
