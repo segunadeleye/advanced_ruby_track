@@ -4,8 +4,9 @@ class ClassCreator
 
   def initialize(file_path)
     @file_path = file_path
-    @csv_data = read_csv_data
-    @new_class = ""
+    @rows = read_csv_data
+    @headers = @rows.headers
+    @class = nil
     @objects = []
   end
   
@@ -23,26 +24,29 @@ class ClassCreator
     if class_name.end_with?("s")
       class_name = class_name[0..-2]
     end
-    klass = Class.new
-    @new_class = Object.const_set class_name, klass
+    @class = Object.const_set class_name, Class.new
+  end
+
+  def create_class_methods_and_objects
+    create_class
     create_methods
     create_objects
     display_objects
   end
 
   def create_methods
-    @csv_data.headers.each do |header|
-      @new_class.class_eval do
-        define_method header do
-          instance_variable_get("@#{header}")
+    @headers.each do |method_name|
+      @class.class_eval do
+        define_method method_name do
+          instance_variable_get("@#{method_name}")
         end
       end
     end
     
-    @csv_data.headers.each do |header|
-        @new_class.class_eval do
-          define_method "#{header}=" do |arg|
-            instance_variable_set("@#{header}", arg)
+    @headers.each do |method_name|
+        @class.class_eval do
+          define_method "#{method_name}=" do |arg|
+            instance_variable_set("@#{method_name}", arg)
           end
         end
     end
@@ -50,10 +54,10 @@ class ClassCreator
 
 
   def create_objects
-    @csv_data.each do |row|
-      obj = @new_class.new
-      @csv_data.headers.each do |header|
-        obj.send("#{header}=", row[header])
+    @rows.each do |row|
+      obj = @class.new
+      @headers.each do |method_name|
+        obj.send("#{method_name}=", row[method_name])
       end
       @objects << obj
     end
@@ -66,12 +70,10 @@ class ClassCreator
     @objects.each do |obj|
       count += 1
       puts "#{obj.class} #{count}"
-      @csv_data.headers.each do |header|
+      @headers.each do |header|
         puts "  #{header}: #{obj.send(header)}"
       end
     end
   end
-end
 
-cc = ClassCreator.new("persons.csv")
-p cc.create_class
+end
