@@ -4,8 +4,8 @@ def string.capitalize_consonant
   gsub(/[^aeiou]/) { |match| match.upcase }
 end
 
-string.remove_consonant
+puts string.capitalize_consonant
 
 string2 = "I am another instance of the class String."
 
-string2.remove_consonant
+puts string2.capitalize_consonant
