@@ -1,7 +1,5 @@
 class MethodCreator
 
-  puts self
-
   def initialize(method_name, method_body)
     @method_name = method_name
     @method_body = method_body
