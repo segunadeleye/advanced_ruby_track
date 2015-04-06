@@ -1,5 +1,7 @@
 class MethodCreator
 
+  puts self
+
   def initialize(method_name, method_body)
     @method_name = method_name
     @method_body = method_body
@@ -8,7 +10,7 @@ class MethodCreator
   
   def run
     eval("def #{@method_name}\n  #{@method_body}\nend")
-    eval(@method_name)
+    puts method(@method_name).call
   end
 
 end
