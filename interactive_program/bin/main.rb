@@ -1,6 +1,6 @@
 require_relative "../lib/interactive_program"
 
-puts "Enter your code. Press blank line to run your code. Enter q to exit."
+puts "Enter your code. Press blank line to run your code. Enter q/Q to exit."
 
 prog = InteractiveProgram.new
 the_binding = prog.get_a_binding
