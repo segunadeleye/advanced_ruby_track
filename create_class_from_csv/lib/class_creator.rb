@@ -18,6 +18,9 @@ class ClassCreator
 
   def read_csv_data
     CSV.read(@file_path, headers: true, header_converters: :symbol)
+    rescue => e
+      puts "#{e.message}: File name incorrect or file not in the lib folder."
+      exit
   end
 
   def create_class
