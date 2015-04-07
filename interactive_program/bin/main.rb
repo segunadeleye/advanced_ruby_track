@@ -7,13 +7,10 @@ the_binding = prog.get_a_binding
 code = ""
 prompt = ">> "
 
-loop do
+begin
   print prompt
   input = gets
-  case input
-  when /\Aq\n\z/i 
-    break
-  when /\A\n\z/
+  if input =~ /\A\n\z/
     print prompt
     begin
       puts prog.run(code, the_binding)
@@ -25,4 +22,4 @@ loop do
   else
     code += input
   end
-end
+end while input !~ /\Aq\n\z/i
