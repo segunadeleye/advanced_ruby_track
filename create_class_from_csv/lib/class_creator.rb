@@ -7,6 +7,7 @@ class ClassCreator
     @rows = read_csv_data
     @headers = @rows.headers
     @objects = []
+    @count = 0
   end
   
   def create_class_methods_and_objects
@@ -38,8 +39,15 @@ class ClassCreator
 
   def create_methods
     # Getter methods and Setter methods
+    # header = "the header"
     @class.class_eval %{
       attr_accessor *#@headers
+
+      def to_s
+        #@headers.map do |header|
+          "   " + header.to_s + ": " + send(header)
+        end.join("\n")
+      end
     }
   end
 
@@ -54,13 +62,9 @@ class ClassCreator
   end
 
   def display_objects
-    count = 0
-    @objects.each do |obj|
-      count += 1
-      puts "#{obj.class} #{count}"
-      @headers.each do |header|
-        puts "  #{header}: #{obj.send(header)}"
-      end
+    @objects.each_with_index do |obj, index|
+      puts "> #{obj.class} #{index + 1}"
+      puts obj
     end
   end
 
