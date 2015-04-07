@@ -38,17 +38,27 @@ class ClassCreator
   end
 
   def create_methods
-    # Getter methods and Setter methods
-    # header = "the header"
     @class.class_eval %{
-      attr_accessor *#@headers
-
       def to_s
         #@headers.map do |header|
           "   " + header.to_s + ": " + send(header)
         end.join("\n")
       end
     }
+    
+    @headers.each do |method_name|
+      @class.class_eval do
+        # Getter methods
+        define_method "#{method_name}" do
+          instance_variable_get("@#{method_name}")
+        end
+
+        # Setter methods
+        define_method "#{method_name}=" do |arg|
+          instance_variable_set("@#{method_name}", arg)
+        end
+      end
+    end
   end
 
   def create_objects
