@@ -1,7 +1,7 @@
 class ShoppingList
-  
+
   def initialize
-    @shopping_list = Hash.new
+    @shopping_list = Hash.new(0)
   end
 
   def items(&block)
@@ -9,7 +9,7 @@ class ShoppingList
   end
 
   def add(item, quantity)
-    @shopping_list[item] = quantity
+    @shopping_list[item] += quantity
   end
 
   def get_list
